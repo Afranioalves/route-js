@@ -232,10 +232,7 @@
             },
             entries: function (node, data, ch, cloned, x_data) {
 
-                if (!data && typeof data !== string) {
-                    properties.console.warn('unknow value of "' + data + '"', data)
-                    data = '';
-                } else if (data['[[man-formed]]']) {
+                if (data['[[man-formed]]']) {
                     properties.console.warn('unstable handler for type Promise', data)
                     data = '';
                 } else if (data instanceof DocumentFragment) {
@@ -307,6 +304,11 @@
                         });
                     }
                     return
+                }
+
+                if (!data && typeof data !== string) {
+                    properties.console.warn('unknow value of "' + data + '"', data)
+                    data = document.createTextNode('');
                 }
 
                 if (data instanceof Comment) {
