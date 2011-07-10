@@ -232,7 +232,7 @@
             },
             entries: function (node, data, ch, cloned, x_data) {
 
-                if (typeof data === "object" && data['[[man-formed]]']) {
+                if (data instanceof Object && data['[[man-formed]]']) {
                     properties.console.warn('unstable handler for type Promise', data)
                     data = '';
                 } else if (data instanceof DocumentFragment) {
