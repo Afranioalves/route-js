@@ -28,10 +28,10 @@
     <title route="app:name">Document</title>
     <script>
         var i=0;
-        var alp='abcdefghijklmnopqrstuvwsyz'
+        var alp='abcdefghijklmnopqrstuvwsyz'.toUpperCase()
         var app = new RouteJs('app',{
             n:function(){
-                return alp['p']
+                return alp[i++]
             }
         });
     </script>
@@ -40,13 +40,21 @@
 <body>
 
     
-    <?app:n?> 
-    <?app:n?>
-    <?app:n?> 
-    <?app:n?> 
-    <?app:n?> 
+    <div id="list">
+        <h4><?app:n?>: list item</h4>
+        <h4><?app:n?>: list item</h4>
+        <h4><?app:n?>: list item</h4>
+    </div> 
+    Add to list
     <br>
-    <input type="text" placeholder="name" oninput="app.map('name',this.value)">
-    <script></script>
+    <input type="text" placeholder="list item" id="input">
+    <button onclick="foo()">add</button>
+    <script>
+        function foo() {
+            var elm=document.createElement('h4')
+            elm.innerHTML+='<?app:n?>: '+input.value;
+            list.appendChild(elm)
+        }
+    </script>
 </body>
 </html>
