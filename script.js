@@ -234,7 +234,7 @@
 
             if (data['[[man-formed]]']) {
                 properties.console.warn('unstable handler for type Promise', data)
-                data='';
+                data = '';
             } else if (data instanceof DocumentFragment) {
                 if (cloned) {
                     properties.entries(node, data.childNodes, ch, true)
@@ -442,9 +442,9 @@
     properties.events = properties.Event('router', {})
     properties.observer(properties.observer_callback, document);
 
-    window.RouteJs = function (name, data) {
+    window.RouteJs = function (name, object) {
         if (typeof name !== "string") {
-            return properties.console.error('string expected, but ' + typeof name + ' provided', name, data)
+            return properties.console.error('string expected, but ' + typeof name + ' provided', name, object)
         }
         name = name.toLowerCase().trim()
         if (properties.store.hasOwnProperty(name)) {
@@ -465,22 +465,22 @@
             // }
             store.events.emit(name, data)
         }
-        this.mapAll = function (data) {
-            if (typeof data === 'object') {
-                for (var key in data) {
-                    store.items.map(key, data[key])
+        this.mapAll = function (object) {
+            if (typeof object === 'object') {
+                for (var key in object) {
+                    store.items.map(key, object[key])
                 }
             } else {
-                return properties.console.error('invalid argument @mapAll', data)
+                return properties.console.error('invalid argument @mapAll', object)
             }
         }
 
         this.createNodeList = function (string) {
             return properties.stringtolist(string)
         }
-        this.createPromise = function (data, placeholder) {
+        this.createPromise = function (promise, placeholder) {
             return {
-                data: data,
+                data: promise,
                 placeholder: placeholder,
                 "[[man-formed]]": true
             }
@@ -501,7 +501,7 @@
         this.usePromise = function () {
             return new properties.APPPromise(arguments[0], arguments[1])
         }
-        this.mapAll(data)
+        this.mapAll(object)
         properties.events.emit(name, store.events)
     }
     RouteJs.initExtention = function () {}

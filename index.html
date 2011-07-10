@@ -56,12 +56,7 @@
     </template>
     <script>
         var app = new RouteJs('app', { 
-            name: 'hello app',
-            display1: new Promise(function(r){
-                setTimeout(function(){
-                r(6)
-            },5000)
-            })
+            name: 'hello app'
         })
         app.map('display',app.usePromise(new Promise(function(r){
             setTimeout(function(){
@@ -79,8 +74,8 @@
     page
     <br>
     <pre>click any button then inspect browser to see magic :)</pre>
-    <button onclick="app.map('display1',app.useTemplate(home))">home</button>
-    <button onclick="app.map('display1',app.useTemplate(about))">about</button>
+    <button onclick="app.map('display',app.useTemplate(home))">home</button>
+    <button onclick="app.map('display',app.useTemplate(about))">about</button>
     <button onclick="app.map('display',app.useTemplate(more))">more</button>
     <button onclick="app.map('display',null)">clear</button>
 
