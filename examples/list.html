@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="../style.css">
+    <script src="../RouteJs.js"></script>
+    <script src="../script.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title route="app:name">Document</title>
+</head>
+
+<body>
+
+    list style:
+    <br>
+    <a onclick="i=0;app.map('n',star)">Star</a>
+    <a onclick="i=0;app.map('n',alphabet_order)">Alphabets</a>
+    <a onclick="i=0;app.map('n',number_order)">Numbers</a>
+    <div id="list">
+        <h4>
+            <?app:n?> list item
+        </h4>
+        <h4>
+            <?app:n?> list item
+        </h4>
+        <h4>
+            <?app:n?> list item
+        </h4>
+    </div>
+    
+    Add to list:
+    <br>
+    <input type="text" placeholder="list item" id="input">
+    <button onclick="foo()">add</button>
+
+</body>
+
+</html>

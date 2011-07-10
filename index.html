@@ -2,8 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- <script src="alpha versions/script.stable.6.js"></script> -->
-    <script src="script.js"></script>
+    <script src="RouteJs.js"></script>
     <style>
         * {
             font-weight: 400;
@@ -26,35 +25,46 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title route="app:name">Document</title>
+    <template id="home">
+        <h1>Home</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet error a magni obcaecati veritatis deleniti
+            dolore perspiciatis, numquam quidem enim dolorum quam. Voluptatum magnam ab in quidem ratione, iure dolores.
+        </p>
+        home
+    </template>
+    <template id="about">
+        <h1>About</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet error a magni obcaecati veritatis deleniti
+            dolore perspiciatis, numquam quidem enim dolorum quam. Voluptatum magnam ab in quidem ratione, iure dolores.
+        </p>
+        about
+    </template>
+    <template id="more">
+        <h1>More</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet error a magni obcaecati veritatis deleniti
+            dolore perspiciatis, numquam quidem enim dolorum quam. Voluptatum magnam ab in quidem ratione, iure dolores.
+        </p>
+        more
+    </template>
     <script>
-        var i=0;
-        var alp='abcdefghijklmnopqrstuvwsyz'.toUpperCase()
-        var app = new RouteJs('app',{
-            n:function(){
-                return alp[i++]
-            }
+        var app = new RouteJs('app', { 
+            name: 'hello app',
         });
     </script>
 </head>
 
 <body>
-
-    
-    <div id="list">
-        <h4><?app:n?>: list item</h4>
-        <h4><?app:n?>: list item</h4>
-        <h4><?app:n?>: list item</h4>
-    </div> 
-    Add to list
+ 
     <br>
-    <input type="text" placeholder="list item" id="input">
-    <button onclick="foo()">add</button>
-    <script>
-        function foo() {
-            var elm=document.createElement('h4')
-            elm.innerHTML+='<?app:n?>: '+input.value;
-            list.appendChild(elm)
-        }
-    </script>
+    <?app:display?> <br>
+    page
+    <br>
+    <pre>click any button then inspect browser to see magic :)</pre>
+    <button onclick="app.map('display',app.useTemplate(home))">home</button>
+    <button onclick="app.map('display',app.useTemplate(about))">about</button>
+    <button onclick="app.map('display',app.useTemplate(more))">more</button>
+    <button onclick="app.map('display',null)">clear</button>
+
 </body>
+
 </html>

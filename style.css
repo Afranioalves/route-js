@@ -1,0 +1,29 @@
+* {
+    font-weight: 400;
+    font-family: system-ui, sans-serif, Apple Color Emoji, Segoe UI, Segoe UI Emoji, Segoe UI Symbol;
+}
+body{
+    margin:36px 7vw;
+}
+p {
+    opacity: 0.8;
+}
+
+pre {
+    margin-bottom: 0;
+}
+
+template {
+    display: none;
+    width: 0;
+height: 0;
+}
+
+a {
+    color: rgb(85, 26, 139);
+    text-decoration-color: rgb(0, 0, 238);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-thickness: auto;
+    cursor: pointer;
+}
