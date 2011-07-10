@@ -12,6 +12,9 @@ app.mapAll(Object)
 app.useTemplate(HTMLTemplateElement || Element)
 
 app.usePromise(Promise, String || NodeList || Element || Node || app.useTemplate || app.usePromise)
+
+app.createNodeList(String)
+
 ```
 
   
@@ -19,6 +22,7 @@ app.usePromise(Promise, String || NodeList || Element || Node || app.useTemplate
 <!--HTML-->
 
 <?A:B C?>
+
 ```
 `
 where 
