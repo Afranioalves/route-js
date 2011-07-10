@@ -16,7 +16,13 @@
  * @properties <\> @re_entries @observer_callback
  */
 
+/**
+ * @problem pending
+ * @todo handle HTMLCollection and Array just like NodeList
+ * @properties <\> @entries
+ */
 
+ 
 (function () {
     /**
      * @Legacy
@@ -28,11 +34,22 @@
                 this.parentNode.removeChild(this)
             }
         }
+        String.prototype.includes = function () {
+            return this.match(arguments[0]) ? true : false;
+            console.dir(this.toString());
+        }
+
+        var DOMOBserver = window.document.createEvent("Event");
+        DOMOBserver.initEvent("DOMNodeInserted", true, true)
+        document.documentElement.dispatchEvent(DOMOBserver)
+        setInterval(function () {
+            document.documentElement.dispatchEvent(DOMOBserver)
+        }, 500)
     }
 
 
     var properties = {
-        useElement: false,
+        useElement: true,
         nameSpace: {
             attribute: 'route'
         },
@@ -194,10 +211,14 @@
             if (data['[[man-formed]]']) {
                 properties.console.warn('unstable handler for type Promise', data)
             } else if (data instanceof DocumentFragment) {
-                properties.entries(node, data.cloneNode(true).childNodes, ch, true)
+                if (cloned) {
+                    properties.entries(node, data.childNodes, ch, true)
+                } else {
+                    properties.entries(node, data.cloneNode(true).childNodes, ch, true)
+                }
                 x_data = node = data = undefined
                 return
-            } else if (data instanceof NodeList || data instanceof Array) {
+            } else if (data instanceof NodeList /*|| data instanceof Array || data instanceof HTMLCollection*/) {
                 if (cloned) {
                     for (var i = 0; data.length > 0; i++) {
                         if (data[0] instanceof Element) {
@@ -242,7 +263,6 @@
             if (data instanceof Comment) {
                 data.parent_data = node.__data__.join(':')
             }
-
             if (!(data instanceof Node)) {
                 data = document.createTextNode(data)
             }
@@ -284,6 +304,7 @@
                     return
                 }
                 e.data = e.getAttribute(properties.nameSpace.attribute)
+                e.removeAttribute(properties.nameSpace.attribute)
                 if (!e.data) {
                     return
                 }
@@ -311,14 +332,28 @@
             if (data && !type) {
                 data = data.trim()
                 if ('#'.includes(data[0])) {
-                    data = document.querySelector(data) || document.createTextNode('');
-                    data = data.content || data
+                    data = document.querySelector(data);
+                    if (data) {
+                        if (data.content) {
+                            data = data.content
+                            data = data.cloneNode(true)
+                        } else {
+                            data = data.childNodes
+                        }
+                    } else {
+                        data = document.createTextNode('')
+                    }
                 } else {
                     data = properties.stringtolist(data)
+                  data.exeception=true
                 }
                 if (!((e = properties.store[node.__data__[0]]) && (e = e.events) && (e = e.has(node.__data__[1])))) {
                     node.target_child = node;
-                    properties.entries(node, data, 0, true)
+                    if (data instanceof NodeList&&!data.exeception) {
+                        properties.entries(node, data, 0)
+                    }else{
+                        properties.entries(node, data, 0, true)
+                    }
                 }
             }
 
@@ -387,6 +422,12 @@
             }
         }
         this.useTemplate = function (template) {
+            if (!window.HTMLTemplateElement) {
+                if (template instanceof Element) {
+                    return template.childNodes
+                }
+                return template
+            }
             if (template instanceof HTMLTemplateElement) {
                 return template.content.childNodes
             } else {

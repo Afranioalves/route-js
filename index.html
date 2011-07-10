@@ -16,6 +16,10 @@
         pre {
             margin-bottom: 0;
         }
+
+        template{
+            display: none;
+        }
     </style>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,13 +52,28 @@
 </head>
 
 <body>
-    <?app:display Loading?> page
+    <?app:display #home?> page
     <br>
     <pre>click any button then inspect browser to see magic :)</pre>
     <button onclick="app.map('display',app.useTemplate(home))">home</button>
     <button onclick="app.map('display',app.useTemplate(about))">about</button>
     <button onclick="app.map('display',app.useTemplate(more))">more</button>
     <button onclick="app.map('display',null)">clear</button>
+
+    <script>
+        var script=`
+        d=6
+        console.log(d)
+        `
+
+        function cmp(params) {
+            var memory={
+                variables:[]
+            }
+            
+        }
+        cmp(script)
+    </script>
 </body>
 
 </html>
