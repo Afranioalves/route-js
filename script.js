@@ -92,8 +92,7 @@
                 return store.eventhandler[type[i]] = store.eventhandler[type[i]] || {
                     name: [String(type), type],
                     emit: function (name, data) {
-                        if (arguments.length <= 1) { // refresher
-                        } else {
+                        if (arguments.length > 1) {
                             store.data[name] = data
                         }
                         if (store.events.hasOwnProperty(name)) {
@@ -178,7 +177,7 @@
                             var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, null, false),
                                 d;
                             while (d = val.nextNode()) {
-                                if (d.data[0] + d.data[d.data.length - 1] === '??'&&d.parentNode) {
+                                if (d.data[0] + d.data[d.data.length - 1] === '??' && d.parentNode) {
                                     foo(d)
                                 }
                             }
@@ -208,12 +207,12 @@
                         properties.type_entries(node, data[i], i)
                     }
                     return
-                } else if (data instanceof Node) {
-                    data = data.cloneNode(true)
                 }
+
                 if (!(data instanceof Node)) {
                     data = document.createTextNode(data)
                 }
+
                 if (!i) {
                     node.innerHTML = ''
                     node.value = ''
@@ -244,7 +243,7 @@
                     }
                     x_data = node = data = undefined
                     return
-                } else if (data instanceof NodeList) {
+                } else if (data instanceof NodeList && node instanceof CharacterData) {
                     if (cloned) {
                         for (var i = 0; data.length > 0; i++) {
                             if (data[0] instanceof Element) {
@@ -256,7 +255,7 @@
                                         // properties.observer_callback(d,node)
                                     }
                                 }
-                                d=val =undefined
+                                d = val = undefined
                             }
                             properties.entries(node, data[0], i, cloned, x_data)
                         }
@@ -271,15 +270,17 @@
                                         // properties.observer_callback(d,node)
                                     }
                                 }
-                                d=val =undefined
+                                d = val = undefined
                             }
                             properties.entries(node, data[i], i, cloned, x_data)
                         }
                     }
-                     x_data = node = data = undefined
+                    x_data = node = data = undefined
                     return
                 } else if (data instanceof Node && !cloned) {
                     data = data.cloneNode(true)
+                } else if (typeof data === 'function') {
+                    data = data();
                 } else if (data instanceof Promise) {
                     var ev = properties.store[node.__data__[0]]
                     if (ev) {
@@ -307,6 +308,11 @@
 
                 if (data instanceof Comment) {
                     data.parent_data = node.__data__.join(':')
+                }
+
+                if (node instanceof Element) {
+                    properties.type_entries(node, data, ch)
+                    return
                 }
 
                 if (!(data instanceof Node)) {
@@ -428,7 +434,8 @@
                             arguments[0] = ''
                         }
                         if (type === properties.nameSpace.element_flag) {
-                            properties.type_entries(node, arguments[0])
+                            // properties.type_entries(node, arguments[0])
+                            properties.entries(node, arguments[0])
                         } else {
                             node.target_child = node;
                             properties.entries(node, arguments[0])
@@ -448,7 +455,11 @@
                 }
                 name = name.toLowerCase().trim()
                 if (properties.store.hasOwnProperty(this.name)) {
-                    properties.store[this.name].emit(name, data)
+                    if (arguments.length > 1) {
+                        properties.store[this.name].emit(name, data)
+                    } else {
+                        properties.store[this.name].emit(name)
+                    }
                 }
                 name = data = undefined
             }

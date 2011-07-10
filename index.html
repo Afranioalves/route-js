@@ -27,36 +27,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title route="app:name">Document</title>
     <script>
-        var app = new RouteJs('app');
+        var i=0;
+        var app = new RouteJs('app',{
+            n:function(){
+                return i+=1
+            }
+        });
     </script>
-<script src="ejs/ejs.js"></script>
 </head>
 
 <body>
 
-    <?condition: true?>
-    h
-    <?end?>
-
-    <?app:*?>
-    <?app:name?> 
+    
+    <?app:n?> 
+    <?app:n?> 
+    <?app:n?> 
+    <?app:n?> 
+    <?app:n?> 
     <br>
     <input type="text" placeholder="name" oninput="app.map('name',this.value)">
-    <script>
-        var e=ejs.render(`
-        hello <%if(name){console.log(8
-            
-            )%>
-            <%=name+1%>
-            <%}else{%>
-            2
-            <%
-        }
-        %>
-        `,{
-            name:'pooo'
-        })
-        console.log(e);
-    </script>
+    <script></script>
 </body>
 </html>
