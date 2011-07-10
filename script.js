@@ -86,7 +86,7 @@
                         } else {
                             store.data[name] = data
                         }
-                        if (name in store.events) {
+                        if (store.events.hasOwnProperty(name)) {
                             for (var i = 0; i < store.events[name].length; i++) {
                                 store.events[name][i](store.data[name])
                             }
@@ -99,19 +99,19 @@
                         } else {
                             store.events[name] = [foo]
                         }
-                        if (name in store.data) {
+                        if (store.data.hasOwnProperty(name)) {
                             foo(store.data[name])
                         }
                         foo = undefined
                     },
                     get: function (name) {
-                        if (name in store.data) {
+                        if (store.data.hasOwnProperty(name)) {
                             return store.data[name]
                         }
                         return null
                     },
                     has: function (name) {
-                        return name in store.data
+                        return store.data.hasOwnProperty(name)
                     },
                     appendChildEvent: function (_type, data) {
                         return this.childEvents[this.childEvents.push(makeEvent(type.push(_type) ? type : type, data)) - 1]
@@ -122,8 +122,6 @@
             },
             getEvent: function () {
                 var ev = properties.store[arguments[0]];
-                //    (ev&&(ev=ev.events)&&(ev=ev.get(arguments[0][1])))
-                (ev && (ev = ev.events))
                 return ev
             },
             isPending: function () {
@@ -283,7 +281,7 @@
                         node.pending = 1
                         data.then(function () {
                             node.pending = 0
-                            ev.events.emit(node.__data__[1], arguments[0])
+                            ev.emit(node.__data__[1], arguments[0])
                             ev = node = x_data = data = undefined
                         });
                     }
@@ -292,11 +290,11 @@
                     var ev = properties.store[node.__data__[0]]
                     if (ev) {
                         properties.entries(node, data.placeholder, ch, cloned, x_data)
-                        // ev.events.emit(node.__data__[1], data.placeholder)
+                        // ev.emit(node.__data__[1], data.placeholder)
                         node.pending = 1
                         data.data.then(function () {
                             node.pending = 0
-                            ev.events.emit(node.__data__[1], arguments[0])
+                            ev.emit(node.__data__[1], arguments[0])
                             ev = node = x_data = data = undefined
                         });
                     }
@@ -404,7 +402,7 @@
                         data = properties.stringtolist(data)
                         data.exeception = true
                     }
-                    if (!((e = properties.store[node.__data__[0]]) && (e = e.events) && (e = e.has(node.__data__[1])))) {
+                    if (!((e = properties.store[node.__data__[0]]) && (e = e.has(node.__data__[1])))) {
                         node.target_child = node;
                         if (data instanceof NodeList && !data.exeception) {
                             properties.entries(node, data, 0)
@@ -449,7 +447,7 @@
                 //     store.keys[name]=[]
                 // }
                 if (properties.store.hasOwnProperty(this.name)) {
-                    properties.store[this.name].events.emit(name, data)
+                    properties.store[this.name].emit(name, data)
                 }
             }
             this.mapAll = function (object) {
@@ -505,15 +503,12 @@
             return;
         }
 
-        var store = (properties.store[name] = {
-            events: properties.Event(name, {}),
-            items: this
-        })
+        var store = (properties.store[name] = properties.Event(name, {}))
         
         Object.freeze(this)
         this.mapAll(object)
         object=undefined
-        properties.events.emit(this.name, store.events)
+        properties.events.emit(this.name, store)
     }
 
     RouteJs.prototype = new RouteJsCore()
