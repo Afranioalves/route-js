@@ -1,9 +1,39 @@
-## RouteJs
 
+# RouteJs
+```js
+/*JavaScript*/
+
+var app=new RouteJs(String, Object])
+
+app.map(String, String || Promise || NodeList || Element || Node || app.useTemplate || app.usePromise)
+
+app.mapAll(Object)
+
+app.useTemplate(HTMLTemplateElement || Element)
+
+app.usePromise(Promise, String || NodeList || Element || Node || app.useTemplate || app.usePromise)
+```
+
+  
+```html
+<!--HTML-->
+
+<?A:B C?>
+```
+`
+where 
+A = Route name,
+B = Map name,
+C = placeholder (value to be displayed before B loads)
+  `
+
+
+
+# Examples
  `javascript`
  ```js
   var app =new RouteJs('app',{
-      name:'my app'
+      name:'Word'
   })
   console.log(app)
  ```
@@ -23,23 +53,24 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <?app:name?>
+        Hello <?app:name?>
     </body>
 </html>
 ```
 
 `preview`
 ```plain
-my app
+Hello Word
 ```
 ----
  `javascript`
  ```js
-  app.map('name','hello app')
+  app.map('name','App')
  ```
 
  `preview`
-```plain
-hello app
+```preview
+Hello App
 ```
 
+[see a live example](https://owens94819.github.io/route-js/)

@@ -57,13 +57,17 @@
     <script>
         var app = new RouteJs('app', { 
             name: 'hello app',
-            display1: new Promise(function(r){r(6)})
+            display1: new Promise(function(r){
+                setTimeout(function(){
+                r(6)
+            },5000)
+            })
         })
         app.map('display',app.usePromise(new Promise(function(r){
             setTimeout(function(){
                 r(6)
-            },40000)
-        }),null,app.useTemplate(home)))
+            },5000)
+        }),app.useTemplate(home)))
     </script>
 </head>
 
@@ -71,13 +75,12 @@
  
     <br>
     <?app:display?> <br>
-    <?app:display?> <br>
     
     page
     <br>
     <pre>click any button then inspect browser to see magic :)</pre>
-    <button onclick="app.map('display',app.useTemplate(home))">home</button>
-    <button onclick="app.map('display',app.useTemplate(about))">about</button>
+    <button onclick="app.map('display1',app.useTemplate(home))">home</button>
+    <button onclick="app.map('display1',app.useTemplate(about))">about</button>
     <button onclick="app.map('display',app.useTemplate(more))">more</button>
     <button onclick="app.map('display',null)">clear</button>
 

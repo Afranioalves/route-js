@@ -130,7 +130,7 @@
             var ev = properties.store[arguments[0]];
             if (!ev) {
                 return true
-            }else{
+            } else {
                 return ev.pending
             }
         },
@@ -231,14 +231,10 @@
             node = data = undefined
         },
         entries: function (node, data, ch, cloned, x_data) {
-            var ev = properties.store[node.__data__[0]]
-            console.log(data);
-            if (node.pending) {
-                ev=undefined
-                return;
-            }
+
             if (data['[[man-formed]]']) {
                 properties.console.warn('unstable handler for type Promise', data)
+                data='';
             } else if (data instanceof DocumentFragment) {
                 if (cloned) {
                     properties.entries(node, data.childNodes, ch, true)
@@ -282,35 +278,37 @@
             } else if (data instanceof Node && !cloned) {
                 data = data.cloneNode(true)
             } else if (data instanceof Promise) {
+                var ev = properties.store[node.__data__[0]]
                 if (ev) {
-                    node.pending=1
+                    node.pending = 1
                     data.then(function () {
-                        node.pending=0
-                            ev.events.emit(node.__data__[1], arguments[0])
-                            ev=node = x_data = data = undefined
+                        node.pending = 0
+                        ev.events.emit(node.__data__[1], arguments[0])
+                        ev = node = x_data = data = undefined
                     });
                 }
-                    return
-                } else if (data instanceof properties.APPPromise) {
+                return
+            } else if (data instanceof properties.APPPromise) {
+                var ev = properties.store[node.__data__[0]]
                 if (ev) {
-                        ev.events.emit(node.__data__[1], data.placeholder)
-                        node.pending=1
-                        data.data.then(function () {
-                            node.pending=0
-                            ev.events.emit(node.__data__[1], arguments[0])
-                            ev = node = x_data = data = undefined
-                        });
+                    properties.entries(node, data.placeholder, ch, cloned, x_data)
+                    // ev.events.emit(node.__data__[1], data.placeholder)
+                    node.pending = 1
+                    data.data.then(function () {
+                        node.pending = 0
+                        ev.events.emit(node.__data__[1], arguments[0])
+                        ev = node = x_data = data = undefined
+                    });
                 }
-                    // properties.console.warn('unstable handler for type Promise', data)
-                    // var elm = document.createTextNode("")
-                    // data.then(function (e) {
-                    //     properties.entries(node, arguments[0], true, cloned, elm)
-                    // });
-                    // data = elm
-                    // elm = undefined
-                   
-                    return
-                }
+                // properties.console.warn('unstable handler for type Promise', data)
+                // var elm = document.createTextNode("")
+                // data.then(function (e) {
+                //     properties.entries(node, arguments[0], true, cloned, elm)
+                // });
+                // data = elm
+                // elm = undefined
+                return
+            }
 
             if (data instanceof Comment) {
                 data.parent_data = node.__data__.join(':')
@@ -337,7 +335,7 @@
                 }
             }
             node.__children__.push(node.target_child = data)
-            ev=data = node = undefined
+            ev = data = node = undefined
         },
         stringtolist: function (e) {
             var elm = arguments.callee.elm.cloneNode()
@@ -366,7 +364,7 @@
                     node = type
                 } else {
                     node = document.createTextNode('')
-                    node.pending=0
+                    node.pending = 0
                 }
 
                 if (type !== properties.nameSpace.offline) {
@@ -378,7 +376,6 @@
                 node.__children__ = []
                 data = e.data.substring(1, e.data.length - 1)
             }
-
 
             data = data.trim().split(/\s/)
             node.__data__ = data[0].trim().toLowerCase()
@@ -421,6 +418,9 @@
 
             properties.events.on(node.__data__[0], function () {
                 arguments[0].on(node.__data__[1], function () {
+                    if (node.pending) {
+                        return;
+                    }
                     if (!arguments[0] && typeof arguments[0] !== 'string') {
                         arguments[0] = ''
                     }
