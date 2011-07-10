@@ -52,17 +52,12 @@
         }, 500)
     }
 
-
     var properties = {
         use_attributes: true,
         nameSpace: {
             attribute: 'route',
             offline: 'still_offline',
             element_flag: 'element'
-        },
-        APPPromise: function () {
-            this.data = arguments[0]
-            this.placeholder = arguments[1]
         },
         Event: function (type, data) {
             if (type instanceof Array === false) {
@@ -120,20 +115,6 @@
                 NEST_SIZE: i
             };
         },
-        getEvent: function () {
-            var ev = properties.store[arguments[0]];
-            //    (ev&&(ev=ev.events)&&(ev=ev.get(arguments[0][1])))
-            (ev && (ev = ev.events))
-            return ev
-        },
-        isPending: function () {
-            var ev = properties.store[arguments[0]];
-            if (!ev) {
-                return true
-            }else{
-                return ev.pending
-            }
-        },
         _observer: (window.MutationObserver ? function (foo, elm) {
             new window.MutationObserver(function (e) {
                 for (var i = 0; i < e.length; i++) {
@@ -171,7 +152,9 @@
                             var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, null, false),
                                 d;
                             while (d = val.nextNode()) {
-                                foo(d)
+                                if (d.parentNode) {
+                                    foo(d)
+                                }
                             }
                         }
                     } else {
@@ -231,12 +214,6 @@
             node = data = undefined
         },
         entries: function (node, data, ch, cloned, x_data) {
-            var ev = properties.store[node.__data__[0]]
-            console.log(data);
-            if (node.pending) {
-                ev=undefined
-                return;
-            }
             if (data['[[man-formed]]']) {
                 properties.console.warn('unstable handler for type Promise', data)
             } else if (data instanceof DocumentFragment) {
@@ -256,7 +233,7 @@
                             while (d = val.nextNode()) {
                                 if (d.data[0] + d.data[d.data.length - 1] === '??') {
                                     d.parent_data = node.__data__.join(':')
-                                    // properties.observer_callback(d,node)
+                                    properties.observer_callback(d)
                                 }
                             }
                         }
@@ -270,7 +247,7 @@
                             while (d = val.nextNode()) {
                                 if (d.data[0] + d.data[d.data.length - 1] === '??') {
                                     d.parent_data = node.__data__.join(':')
-                                    // properties.observer_callback(d,node)
+                                    properties.observer_callback(d)
                                 }
                             }
                         }
@@ -282,38 +259,18 @@
             } else if (data instanceof Node && !cloned) {
                 data = data.cloneNode(true)
             } else if (data instanceof Promise) {
-                if (ev) {
-                    node.pending=1
-                    data.then(function () {
-                        node.pending=0
-                            ev.events.emit(node.__data__[1], arguments[0])
-                            ev=node = x_data = data = undefined
-                    });
-                }
-                    return
-                } else if (data instanceof properties.APPPromise) {
-                if (ev) {
-                        ev.events.emit(node.__data__[1], data.placeholder)
-                        node.pending=1
-                        data.data.then(function () {
-                            node.pending=0
-                            ev.events.emit(node.__data__[1], arguments[0])
-                            ev = node = x_data = data = undefined
-                        });
-                }
-                    // properties.console.warn('unstable handler for type Promise', data)
-                    // var elm = document.createTextNode("")
-                    // data.then(function (e) {
-                    //     properties.entries(node, arguments[0], true, cloned, elm)
-                    // });
-                    // data = elm
-                    // elm = undefined
-                   
-                    return
-                }
+                properties.console.warn('unstable handler for type Promise', data)
+                var elm = document.createTextNode("")
+                data.then(function (e) {
+                    properties.entries(node, arguments[0], true, cloned, elm)
+                });
+                data = elm
+                elm = undefined
+            }
 
             if (data instanceof Comment) {
                 data.parent_data = node.__data__.join(':')
+                // data = properties.observer_callback(data,properties.nameSpace.offline)||''
             }
 
             if (!(data instanceof Node)) {
@@ -337,7 +294,7 @@
                 }
             }
             node.__children__.push(node.target_child = data)
-            ev=data = node = undefined
+            data = node = undefined
         },
         stringtolist: function (e) {
             var elm = arguments.callee.elm.cloneNode()
@@ -366,18 +323,18 @@
                     node = type
                 } else {
                     node = document.createTextNode('')
-                    node.pending=0
                 }
 
                 if (type !== properties.nameSpace.offline) {
                     e._points_to = node
                     e.parentElement.replaceChild(node, e)
                 }
-
+                
                 type = undefined
                 node.__children__ = []
                 data = e.data.substring(1, e.data.length - 1)
             }
+
 
 
             data = data.trim().split(/\s/)
@@ -424,7 +381,7 @@
                     if (!arguments[0] && typeof arguments[0] !== 'string') {
                         arguments[0] = ''
                     }
-                    if (type === properties.nameSpace.element_flag) {
+                    if (type) {
                         properties.type_entries(node, arguments[0])
                     } else {
                         node.target_child = node;
@@ -432,7 +389,7 @@
                     }
                 })
             })
-            // return node
+            return node
         },
 
         console: console,
@@ -452,17 +409,14 @@
         }
         var store = (properties.store[name] = {
             events: properties.Event(name, {}),
-            // keys: {},
             items: this
         })
+
         this.map = function (name, data) {
             if (typeof name !== "string") {
                 return properties.console.error('invalid argument @map', name, data)
             }
             name = name.toLowerCase().trim()
-            // if (!store.keys.hasOwnProperty(name)) {
-            //     store.keys[name]=[]
-            // }
             store.events.emit(name, data)
         }
         this.mapAll = function (data) {
@@ -497,9 +451,6 @@
             } else {
                 return null
             }
-        }
-        this.usePromise = function () {
-            return new properties.APPPromise(arguments[0], arguments[1])
         }
         this.mapAll(data)
         properties.events.emit(name, store.events)
