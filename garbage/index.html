@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="script.stable.3.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title route="app:count">Document</title>
+    <template id="placeholder">
+        <h1>Loading</h1>
+<p>please wait a while. <?app:count?>.</p>
+    </template>
+    <template id="_2">
+        <h1>2</h1>
+    <?app:name?>
+
+    </template>
+    <script>
+        var i=0
+        var app =new RouteJs('app',{
+            namex:[new Promise(function(r){
+            setTimeout(function() {
+                r(app.createNodeList('<?app:count?>1<b>2</b> '))
+            }, 1000);
+            }),
+            new Promise(function(r){
+            setTimeout(function() {
+                r(app.createNodeList('3<b>4</b>'))
+            }, 1000);
+            })],
+            name:placeholder.content,
+            name1:_2.content,
+            count:i,
+            total:i
+        })
+app.map('named',app.createPromise(new Promise(function(r){
+            // setTimeout(function() {
+                r(app.createNodeList('3<b>4</b>'))
+            // }, 1000);
+            }),'loading'))
+    </script>
+</head>
+<body>
+    <?app:namex?>
+    <?app:named?>
+  <br>
+  <!-- <?app:name?> -->
+        <h1>Number: <?app:count?></h1>
+        <button onclick="app.map('count',i+=1);app.map('total',i*2)">increment Number <?app:count?></button>
+        <h3><?app:count?>*2=<?app:total?></h1>
+        <?app:namea #placeholder?>
+    <script>
+    // app.map('count',2)
+// setTimeout(function() {
+//     var d=document.createElement('l')
+// d.innerHTML='[<?app:total?>]'
+// document.body.appendChild(d)
+// }, 1000);
+    </script>
+</body>
+</html>
