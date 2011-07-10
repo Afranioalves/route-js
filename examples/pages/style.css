@@ -1,0 +1,26 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+h2,h1 {
+    text-transform: uppercase;
+}
+
+p,
+h2,h1 {
+    text-align: center;
+}
+
+
+img{
+    max-height: 400px;
+    height: 57vw;
+}
+
+button{
+    background-color: #4a4a69;
+    color: rgb(255 255 255);
+    font-weight: 500;
+    padding: 10px 16px;
+}

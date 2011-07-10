@@ -630,7 +630,7 @@
             //         "[[man-formed]]": true
             //     }
             // }
-            this.nonStaticTemplate = function (template) {
+            this.nonStaticTemplate = function (HTMLTemplate) {
                 if (!window.HTMLTemplateElement) {
                     if (arguments[0] instanceof Element) {
                         return new properties.APPTemplate(arguments[0])
@@ -644,7 +644,10 @@
                 }
             }
 
-            this.useTemplate = function (template) {
+            this.useTemplate = function (HTMLTemplate) {
+                if (typeof arguments[0] === "string") {
+                    arguments[0] = document.querySelector(arguments[0]);
+                }
                 if (arguments[1] === true) {
                     /**@fixed remove*/
                     return this.nonStaticTemplate(arguments[0]);
@@ -685,7 +688,7 @@
         if (properties.store.hasOwnProperty(name)) {
             return;
         }
-        var store = (properties.store[name] = properties.Event(name, object instanceof properties.APPExtendedObject ? object.content : {}))
+        var store = (properties.store[name] = properties.Event(name, object instanceof properties.APPExtendedObject ? object.content : {}));
 
         Object.freeze(this)
         this.mapAll(object)

@@ -12,4 +12,4 @@ if (!localStorage.routed) {
     })
 }
 
-app.map('item', app.useTemplate(temp, true))
+app.map('item', app.useTemplate("#temp", true))
