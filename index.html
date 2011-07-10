@@ -28,9 +28,10 @@
     <title route="app:name">Document</title>
     <script>
         var i=0;
+        var alp='abcdefghijklmnopqrstuvwsyz'
         var app = new RouteJs('app',{
             n:function(){
-                return i+=1
+                return alp[i++]
             }
         });
     </script>
@@ -40,7 +41,7 @@
 
     
     <?app:n?> 
-    <?app:n?> 
+    <?app:n?>
     <?app:n?> 
     <?app:n?> 
     <?app:n?> 

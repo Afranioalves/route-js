@@ -232,7 +232,10 @@
             },
             entries: function (node, data, ch, cloned, x_data) {
 
-                if (data['[[man-formed]]']) {
+                if (!data && typeof data !== string) {
+                    properties.console.warn('unknow value of "' + data + '"', data)
+                    data = '';
+                } else if (data['[[man-formed]]']) {
                     properties.console.warn('unstable handler for type Promise', data)
                     data = '';
                 } else if (data instanceof DocumentFragment) {
@@ -430,9 +433,9 @@
                             }
                         }
 
-                        if (!arguments[0] && typeof arguments[0] !== 'string') {
-                            arguments[0] = ''
-                        }
+                        // if (!arguments[0] && typeof arguments[0] !== 'string') {
+                        //     arguments[0] = ''
+                        // }
                         if (type === properties.nameSpace.element_flag) {
                             // properties.type_entries(node, arguments[0])
                             properties.entries(node, arguments[0])
