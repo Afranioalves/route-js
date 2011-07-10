@@ -306,7 +306,7 @@
                     return
                 }
 
-                if (!data && typeof data !== string) {
+                if (!data && typeof data !== 'string') {
                     properties.console.warn('unknow value of "' + data + '"', data)
                     data = document.createTextNode('');
                 }
