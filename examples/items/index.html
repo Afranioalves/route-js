@@ -11,17 +11,20 @@
         <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi dolorum excepturi natus!.
         </p>
-    <?localstorage:asgsl?>
+        <?localstorage:asgsl?>
     </template>
-    <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="style.css">
+    
     <script src="../../RouteJs.js"></script>
     <!-- <script src="../../alpha versions/script.stable.7.js"></script> -->
     <script src="script.js"></script>
+
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="style.css">
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title route="app:name">Document</title>
+    <title route="app:name" route-target="innerText">Document</title>
 </head>
 <style>
     div[state="1"]:nth-child(1){
@@ -30,6 +33,5 @@
 </style> 
 <body>
 <?app:item?>
-rgb(44, 44, 50)
 </body>
 </html>

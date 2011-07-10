@@ -1,8 +1,7 @@
 /** @init RouteJs */
 var app = new RouteJs('app', {
-    name: 'RouteJs',
-});
+        name: 'RouteJs'
+    }),
+    storage = new RouteJs('localStorage', RouteJs.extend(localStorage));
 
-new RouteJs('localStorage', localStorage);
-
-app.map('item',app.useTemplate(temp,true))
+app.map('item', app.useTemplate(temp, true))

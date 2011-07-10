@@ -14,11 +14,10 @@
 
 <body>
 
-    list marker:
-    <br>
-    <a onclick="i=0;app.map('n',star)">Star</a>
-    <a onclick="i=0;app.map('n',number_order)">Numbers</a>
-    <a onclick="i=0;app.map('n',alphabet_order)">Alphabets</a>
+    <h2>List marker:</h2>
+        <button onclick="i=0;app.map('n',star)">Star</button>
+    <button onclick="i=0;app.map('n',number_order)">Numbers</button>
+    <button onclick="i=0;app.map('n',alphabet_order)">Alphabets</button>
     <div id="list">
         <h4>
             <?app:n?> list item
@@ -31,8 +30,7 @@
         </h4>
     </div>
     
-    Add to list:
-    <br>
+    <h3>Add to list:</h3>
     <input type="text" placeholder="list item" id="input">
     <button onclick="foo()">add</button>
 

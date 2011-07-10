@@ -2,9 +2,20 @@
     font-weight: 400;
     font-family: system-ui, sans-serif, Apple Color Emoji, Segoe UI, Segoe UI Emoji, Segoe UI Symbol;
 }
-body{
-    margin:36px 7vw;
+
+*:focus {
+    outline: none;
 }
+
+html {
+    background-color: rgb(44, 44, 50);
+    color: rgb(211, 211, 246);
+}
+
+body {
+    margin: 36px 7vw;
+}
+
 p {
     opacity: 0.8;
 }
@@ -16,14 +27,31 @@ pre {
 template {
     display: none;
     width: 0;
-height: 0;
+    height: 0;
 }
 
 a {
-    color: rgb(85, 26, 139);
+    color: rgb(204, 161, 244);
     text-decoration-color: rgb(0, 0, 238);
     text-decoration-line: underline;
     text-decoration-style: solid;
     text-decoration-thickness: auto;
     cursor: pointer;
+    -moz-text-decoration-line: ;
+}
+
+button, input {
+    border: none;
+    background-color: #ffffff;
+    color: rgb(44, 44, 50);
+    outline: none;
+    padding: 6px 12px;
+}
+
+button{
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -o-border-radius: 12px;
 }

@@ -3,24 +3,7 @@
 
 <head>
     <script src="RouteJs.js"></script>
-    <style>
-        * {
-            font-weight: 400;
-            font-family: system-ui, sans-serif, Apple Color Emoji, Segoe UI, Segoe UI Emoji, Segoe UI Symbol;
-        }
-
-        p {
-            opacity: 0.8;
-        }
-
-        pre {
-            margin-bottom: 0;
-        }
-
-        template {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,10 +39,10 @@
 <body>
  
     <br>
-    <?app:display?> <br>
-    page
+    <?app:display?> page
     <br>
     <pre>click any button then inspect browser to see magic :)</pre>
+<br>
     <button onclick="app.map('display',app.useTemplate(home))">home</button>
     <button onclick="app.map('display',app.useTemplate(about))">about</button>
     <button onclick="app.map('display',app.useTemplate(more))">more</button>

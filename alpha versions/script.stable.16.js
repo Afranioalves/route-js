@@ -179,7 +179,7 @@
                 }
 
                 if (!(data instanceof Object)) {
-                    data = null
+                    data=null
                 }
 
                 store.data = store.data || data || {};
@@ -337,20 +337,20 @@
                     data = document.createTextNode(data)
                 }
 
-
-                if (node.hasAttribute(properties.nameSpace.attribute + '-target')) {
-                    node.__target = node.getAttribute(properties.nameSpace.attribute + '-target')
-                    node.__target = node.__target.split(',')
+                
+                if (node.hasAttribute(properties.nameSpace.attribute+'-target')) {
+                    node.__target=node.getAttribute(properties.nameSpace.attribute+'-target')
+                    node.__target=node.__target.split(',')
                 }
 
                 if (node.__target) {
                     if (i) {
                         for (var i = 0; i < node.__target.length; i++) {
-                            node[node.__target[i].trim()] += data.textContent
+                            node[node.__target[i].trim()]+=data.textContent
                         }
                     } else {
                         for (var i = 0; i < node.__target.length; i++) {
-                            node[node.__target[i].trim()] = data.textContent
+                            node[node.__target[i].trim()]=data.textContent
                         }
                     }
                 } else {
@@ -488,10 +488,10 @@
                     if (!e.getAttribute) {
                         return
                     }
-                    if (e.hasAttribute(properties.nameSpace.attribute + '-target')) {
-                        e.__target = e.getAttribute(properties.nameSpace.attribute + '-target')
-                        e.__target = e.__target.split(',')
-                        e.removeAttribute(properties.nameSpace.attribute + '-target')
+                    if (e.hasAttribute(properties.nameSpace.attribute+'-target')) {
+                        e.__target=e.getAttribute(properties.nameSpace.attribute+'-target')
+                        e.__target=e.__target.split(',')
+                        e.removeAttribute(properties.nameSpace.attribute+'-target')
                     }
                     e.pending = 0
                     e.data = e.getAttribute(properties.nameSpace.attribute)
@@ -702,7 +702,7 @@
 // RouteJs.initExtension('mapplus',function(properties){
 //     properties.entries()
 // },`
-
+ 
 // APPTemplate,
 // entries
 
