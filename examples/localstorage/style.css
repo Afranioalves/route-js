@@ -1,6 +1,14 @@
 body {
-    /* margin: 0; */
-    scroll-behavior: smooth;
+    /*margin: 0;
+    */scroll-behavior: smooth;
+    background-color: rgb(187, 130, 80);
+    padding: 10px;
+    opacity: 1;
+    border-radius: 18px;
+    -webkit-border-radius: 18px;
+    -moz-border-radius: 18px;
+    -ms-border-radius: 18px;
+    -o-border-radius: 18px;
 }
 
 #bd {

@@ -27,7 +27,12 @@
  * @todo prevent node re-occurrence (same repaint)
  * @properties <\> @observer_callback @on
  */
-//DOMActivate
+
+/**
+ * @feature Animations
+ * @todo add a transitional animation at before entries and before re_entries
+ */
+
 
 (function () {
     /**

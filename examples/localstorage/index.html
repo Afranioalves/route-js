@@ -6,25 +6,34 @@
         var img=new Image();
         // img.src='../../imgs/1.png'
     </script>
+    <style>
+        body{
+            opacity: 0;
+        }
+    </style>
     <template id="temp">
-        <h1><?app:name?></h1>
+        <h1>Change style</h1>
+        <h4>Choose option then reload page.</h4>
         <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi dolorum excepturi natus!.
         </p>
-        <?localstorage:asgsl?>
+        <h3>current style: "<?localstorage:style?>"</h3>
+        <div>
+            <button onclick="storage.map('style','style.css')">default</button>
+            <button onclick="storage.map('style','light.css')">light</button>
+        </div>
     </template>
     
     <script src="../../RouteJs.js"></script>
-    <!-- <script src="../../alpha versions/script.stable.7.js"></script> -->
     <script src="script.js"></script>
 
-    <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../../themes/default.css">
+    <link rel="stylesheet" route="localstorage:style">
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title route="app:name" route-target="innerText">Document</title>
+    <title route="localstorage:name" route-target="innerText">Document</title>
 </head>
 <body>
 <?app:item?>
