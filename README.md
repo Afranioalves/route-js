@@ -77,4 +77,6 @@ Hello Word
 Hello App
 ```
 
-[see a live example](https://owens94819.github.io/route-js/)
+# Examples
+[using template](https://owens94819.github.io/route-js/)
+[list styling](https://owens94819.github.io/route-js/examples/list.html)
