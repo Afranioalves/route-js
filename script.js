@@ -55,8 +55,8 @@
 
     var properties = {
             use_attributes: true,
-            max_map_stack:7,
-            max_map_rendering:7,
+            max_map_stack: 7,
+            max_map_rendering: 7,
             nameSpace: {
                 attribute: 'route',
                 offline: 'still_offline',
@@ -153,7 +153,7 @@
             }),
             observer: function (foo) {
                 properties._observer(function (e) {
-                    if (e instanceof Comment && e.parentNode) {
+                    if (e instanceof Comment && e.parentNode && e.data[0] + e.data[e.data.length - 1] === '??') {
                         foo(e)
                     } else if (e instanceof Element) {
                         if (properties.use_attributes) {
@@ -164,20 +164,23 @@
                                 for (var i = 0; i < _e.length; i++) {
                                     foo(_e[i], properties.nameSpace.element_flag)
                                 }
+                                _e = undefined;
                                 var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, null, false),
                                     d;
-                                while (d = val.nextNode()) {
-                                    foo(d)
+                                while (d = val.nextNode() && d.data[0] + d.data[d.data.length - 1] === '??') {
+                                    foo(d);
                                 }
+                                val = d = undefined;
                             }
                         } else {
                             var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, null, false),
                                 d;
-                            while (d = val.nextNode()) {
+                            while (d = val.nextNode() && d.data[0] + d.data[d.data.length - 1] === '??') {
                                 if (d.parentNode) {
                                     foo(d)
                                 }
                             }
+                            val = d = undefined;
                         }
                     }
                     e = undefined
@@ -431,7 +434,6 @@
                     arguments[0] = undefined
                 })
             },
-
             console: console,
             store: {}
         },
@@ -491,7 +493,7 @@
 
     window.RouteJs = function (name, object) {
         if (!(this instanceof RouteJs)) {
-            return new RouteJs(name,object)
+            return new RouteJs(name, object)
         }
         if (typeof name !== "string") {
             return properties.console.error('string expected, but ' + typeof name + ' provided', name, object)
