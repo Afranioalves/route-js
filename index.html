@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- <script src="./garbage/script.stable.6.js"></script> -->
+    <!-- <script src="alpha versions/script.stable.6.js"></script> -->
     <script src="script.js"></script>
     <style>
         * {
@@ -26,206 +26,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title route="app:name">Document</title>
-    <template id="home">
-        <h1>Home</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet error a magni obcaecati veritatis deleniti
-            dolore perspiciatis, numquam quidem enim dolorum quam. Voluptatum magnam ab in quidem ratione, iure dolores.
-        </p>
-        home
-    </template>
-    <template id="about">
-        <h1>About</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet error a magni obcaecati veritatis deleniti
-            dolore perspiciatis, numquam quidem enim dolorum quam. Voluptatum magnam ab in quidem ratione, iure dolores.
-        </p>
-        about
-    </template>
-    <template id="more">
-        <h1>More</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet error a magni obcaecati veritatis deleniti
-            dolore perspiciatis, numquam quidem enim dolorum quam. Voluptatum magnam ab in quidem ratione, iure dolores.
-        </p>
-        <!-- <div>
-        <div>
-            <div>
-            <?app:name #homel?>
-        </div>
-        </div>
-    </div> -->
-        more
-    </template>
     <script>
-        var app = new RouteJs('app', { 
-            name: 'hello app',
-        });
+        var app = new RouteJs('app');
     </script>
 </head>
 
 <body>
- 
+
+    <?app:name?> 
     <br>
-    <?app:display?> 
-    <br>
-    page
-    <br>
-    <pre>click any button then inspect browser to see magic :)</pre>
-    <button onclick="app.map('display',app.useTemplate(home))">home</button>
-    <button onclick="app.map('display',app.useTemplate(about))">about</button>
-    <button onclick="app.map('display',app.useTemplate(more))">more</button>
-    <button onclick="app.map('display',null)">clear</button>
-
-    <script>
-    //     function cmp(script) {
-    //         var Native = {
-    //             string: function (variable, value, memory) {
-    //                  console.log(argument[0]);
-    //             },
-    //             number: function (variable, value, memory) {
-    //                  console.log(argument[0]);
-    //             },
-    //             variable:function(){
-    //                 console.log(argument[0]);
-
-    //                 // memory.variables[0][a] = undefined;
-                    
-    //             },
-    //             merg: function (a, b) {
-    //                 b = b.trim();
-    //                 a = a.trim()
-    //                 console.log(a);
-    //                 // switch (b) {
-    //                 //     case '==':
-
-    //                 //         break;
-    //                 //     default:
-    //                 //         break;
-    //                 // }
-    //             },
-    //             unknown: function () {
-    //                 console.error('error', arguments[0]);
-    //             }
-    //         },
-    //             memory = {
-    //                 variables: [{
-    //                     c: 5
-    //                 }]
-    //             },
-    //             _previousByte = '',
-    //             _currentByte = '',
-    //             _nextByte = '',
-    //             previousBytes = '',
-    //             currentBytes = '',
-    //             nextBytes = '',
-    //             next2Bytes = ''
-    //             previous2Bytes = '',
-    //             currentVariable = '',
-    //             fallback = '',
-    //             currentStates = [];
-
-    //             var holder;//last currentstates
-    //             var holder_1 = "";//assigning
-    //             var holder_2 = 0;// function
-
-    //         var primativeType = 'number variable'
-    //         var nonePrimativeType = 'string function'
-    //             ;
-    //         (function () {
-    //             for (_currentByte = script[0]; script.length > 0; _currentByte = script[0]) {
-    //                 _nextByte = script[1]
-
-    //                 // currentBytes += _currentByte;
-
-    //                 holder = currentStates[currentStates.length - 1]
-
-    //                 switch (true) {
-    //                     case (holder && holder.type === 'number'&&/[^0-9]/.test(_currentByte)):
-    //                       holder = Native[holder.type] || Native["unknown"]; holder(currentStates.pop()); previousBytes = currentBytes; currentBytes = _currentByte = ""
-    //                         break
-    //                     case (/[0-9]/.test(_currentByte) && (!holder || primativeType.includes(holder.type + ' '))):
-    //                           currentStates.push({ type: 'number', variable: currentVariable, pair: _currentByte })
-    //                          break;
-    //                     case (/=|!/.test(_currentByte) && (!holder || primativeType.includes(holder.type + ' '))):
-    //                         holder_1 = ""
-    //                         previousBytes = currentBytes
-    //                         // holder_1+=_currentByte
-    //                         for (; script.length > 0;_currentByte=script[0]) {
-    //                             if (/[\w\/\"\'\s]/.test(_currentByte)) {
-    //                                 break;
-    //                             }else{
-    //                             // console.log(script[0]);
-    //                             holder_1 += script[0]
-    //                             script = script.substring(1)
-    //                             }
-    //                         }
-    //                         holder_1=holder_1.trim();
-    //                         // console.log(holder_1);
-    //                         currentVariable = currentBytes
-    //                         if (holder_1==='=') {
-    //                             // currentStates.push({ type: 'variable', variable: currentVariable, pair: _currentByte })
-    //                         }else{
-    //                             Native.merg(currentVariable, holder_1)
-    //                         }
-    //                         currentBytes = _currentByte = ""
-    //                         break;
-    //                     case (currentBytes.trim() === "function" && (!hold || hold.type !== 'string')):
-    //                         if (hold.type === 'function') {
-    //                             holder_2 += 1
-    //                         } else {
-    //                             currentStates.push({ type: 'function', variable: currentVariable, pair: _currentByte })
-    //                         }
-    //                         break;
-    //                     case (/\}/.test(_currentByte) && hold && hold.type === 'function'):
-    //                         if (holder_2 === 0) {
-    //                             holder = Native[holder.type] || Native["unknown"]; holder(currentStates.pop()); previousBytes = currentBytes; currentBytes = _currentByte = ""
-    //                         } else {
-    //                             holder_2 -= 1
-    //                         }
-    //                         break;
-    //                     case (/"|'/.test(_currentByte) && (!holder || holder.type !== 'function')):
-    //                     console.log(currentBytes,holder);
-    //                         if (holder && holder.type === 'string') {
-    //                             if (holder.pair === _currentByte) {
-    //                                 holder = Native[holder.type] || Native["unknown"]; holder(currentStates.pop()); previousBytes = currentBytes; currentBytes = _currentByte = ""
-    //                                 break;
-    //                             }
-    //                         } else {
-    //                             currentStates.push({ type: 'string', variable: currentVariable, pair: _currentByte })
-    //                             _currentByte = ""
-    //                             break;
-    //                         }
-
-    //                 }
-    //                 script = script.substring(1)
-    //                 currentBytes += _currentByte;
-    //                 _previousByte = currentBytes
-    //             }
-    //         })();
-    //         console.log(memory.variables[0]);
-    //     }
-    //     // s = 'p d'
-    //     // d = s[0]
-    //     // for (; s.length > 0; d = s[0]) {
-    //     //     console.log(d, d === ' ');
-    //     //     s = s.substring(1)
-    //     // }
-    //     // console.log(s.length);
-    //     var script = `
-    //     d="bkhjk jj";
-    //     console.log(d)
-    //     `
-    //     cmp(script)
-    //     // a=61
-    // //         for (var i = 0; i < 5; i++) {
-    // //             switch (true) {
-    // //     case (a===9||a===6):
-    // //         console.log('ok1');
-    // //             break;
-    // //     case true:
-    // //     console.log('ok2');
-    // //     break;
-    // // }
-    // //         }
-    </script>
+    <input type="text" placeholder="name" oninput="app.map('name',this.value)">
+    <script></script>
 </body>
-
 </html>
