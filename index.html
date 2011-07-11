@@ -56,14 +56,15 @@
     </template>
     <script>
         var app = new RouteJs('app', { 
+            name: 'hello app',
             display1: 'hello app'
-        })
+        });
         app.map('display1',new Promise(function(r){
             setTimeout(function(){
                 r(600)
             },5000)
         }))
-
+        
         app.map('display',app.usePromise(new Promise(function(r){
             setTimeout(function(){
                 r(6)
@@ -88,8 +89,6 @@
     <button onclick="app.map('display',null)">clear</button>
 
     <script>
-
-
     //     function cmp(script) {
     //         var Native = {
     //             string: function (variable, value, memory) {

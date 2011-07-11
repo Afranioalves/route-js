@@ -128,18 +128,6 @@
                     NEST_SIZE: i
                 };
             },
-            // getEvent: function () {
-            //     var ev = properties.store[arguments[0]];
-            //     return ev
-            // },
-            // isPending: function () {
-            //     var ev = properties.store[arguments[0]];
-            //     if (!ev) {
-            //         return true
-            //     } else {
-            //         return ev.pending
-            //     }
-            // },
             _observer: (window.MutationObserver ? function (foo, elm) {
                 new window.MutationObserver(function (e) {
                     for (var i = 0; i < e.length; i++) {
@@ -451,6 +439,18 @@
                     return properties.console.error('invalid argument @map', name, data)
                 }
                 name = name.toLowerCase().trim()
+                // if (data instanceof Promise) {
+                //     if (ev) {
+                //         ev.emit(node.__data__[1], ch = new properties.APPConstant(data.placeholder))
+                //         data.data.then(function () {
+                //             ch.data = arguments[0]
+                //             ch.pending = 0
+                //             ev.emit(node.__data__[1], ch)
+                //             ch = ev = node = x_data = data = undefined
+                //         });
+                //     }
+                //     return
+                // }
                 if (properties.store.hasOwnProperty(this.name)) {
                     properties.store[this.name].emit(name, data)
                 }
