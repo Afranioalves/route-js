@@ -167,16 +167,18 @@
                                 _e = undefined;
                                 var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, null, false),
                                     d;
-                                while (d = val.nextNode() && d.data[0] + d.data[d.data.length - 1] === '??') {
-                                    foo(d);
+                                while ((d = val.nextNode())) {
+                                    if (d.data[0] + d.data[d.data.length - 1] === '??') {
+                                        foo(d);
+                                    }
                                 }
                                 val = d = undefined;
                             }
                         } else {
                             var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, null, false),
                                 d;
-                            while (d = val.nextNode() && d.data[0] + d.data[d.data.length - 1] === '??') {
-                                if (d.parentNode) {
+                            while (d = val.nextNode()) {
+                                if (d.data[0] + d.data[d.data.length - 1] === '??'&&d.parentNode) {
                                     foo(d)
                                 }
                             }
@@ -254,6 +256,7 @@
                                         // properties.observer_callback(d,node)
                                     }
                                 }
+                                d=val =undefined
                             }
                             properties.entries(node, data[0], i, cloned, x_data)
                         }
@@ -268,11 +271,12 @@
                                         // properties.observer_callback(d,node)
                                     }
                                 }
+                                d=val =undefined
                             }
                             properties.entries(node, data[i], i, cloned, x_data)
                         }
                     }
-                    x_data = node = data = undefined
+                     x_data = node = data = undefined
                     return
                 } else if (data instanceof Node && !cloned) {
                     data = data.cloneNode(true)
