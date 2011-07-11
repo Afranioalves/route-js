@@ -64,12 +64,12 @@
                 this.data = arguments[0]
                 this.placeholder = arguments[1]
             },
-            APPConstant:function(){
-                this.data=arguments[0]
+            APPConstant: function () {
+                this.data = arguments[0]
                 if (arguments[1] instanceof Number) {
-                    this.pending=arguments[1]
+                    this.pending = arguments[1]
                 } else {
-                    this.pending=1
+                    this.pending = 1
                 }
             },
             Event: function (type, data) {
@@ -128,18 +128,18 @@
                     NEST_SIZE: i
                 };
             },
-            getEvent: function () {
-                var ev = properties.store[arguments[0]];
-                return ev
-            },
-            isPending: function () {
-                var ev = properties.store[arguments[0]];
-                if (!ev) {
-                    return true
-                } else {
-                    return ev.pending
-                }
-            },
+            // getEvent: function () {
+            //     var ev = properties.store[arguments[0]];
+            //     return ev
+            // },
+            // isPending: function () {
+            //     var ev = properties.store[arguments[0]];
+            //     if (!ev) {
+            //         return true
+            //     } else {
+            //         return ev.pending
+            //     }
+            // },
             _observer: (window.MutationObserver ? function (foo, elm) {
                 new window.MutationObserver(function (e) {
                     for (var i = 0; i < e.length; i++) {
@@ -249,7 +249,7 @@
                     }
                     x_data = node = data = undefined
                     return
-                } else if (data instanceof NodeList /*|| data instanceof Array || data instanceof HTMLCollection*/ ) {
+                } else if (data instanceof NodeList) {
                     if (cloned) {
                         for (var i = 0; data.length > 0; i++) {
                             if (data[0] instanceof Element) {
@@ -297,14 +297,12 @@
                 } else if (data instanceof properties.APPPromise) {
                     var ev = properties.store[node.__data__[0]]
                     if (ev) {
-                        // properties.entries(node, data.placeholder, ch, cloned, x_data)
-                        // node.pending = 1
-                        ev.emit(node.__data__[1], ch=new properties.APPConstant(data.placeholder))
+                        ev.emit(node.__data__[1], ch = new properties.APPConstant(data.placeholder))
                         data.data.then(function () {
                             ch.data = arguments[0]
                             ch.pending = 0
                             ev.emit(node.__data__[1], ch)
-                            ch=ev = node = x_data = data = undefined
+                            ch = ev = node = x_data = data = undefined
                         });
                     }
                     return
@@ -352,7 +350,7 @@
                     if (!e.getAttribute) {
                         return
                     }
-                    e.pending=0
+                    e.pending = 0
                     e.data = e.getAttribute(properties.nameSpace.attribute)
                     e.removeAttribute(properties.nameSpace.attribute)
                     if (!e.data) {
@@ -419,15 +417,15 @@
 
                 properties.events.on(node.__data__[0], function () {
                     arguments[0].on(node.__data__[1], function () {
-                            if (arguments[0] instanceof properties.APPConstant) {
-                                node.pending=arguments[0].pending
-                                arguments[0]=arguments[0].data
-                            }else{
-                                if (node.pending) {
-                                    arguments[0]=undefined
-                                    return
-                                }
+                        if (arguments[0] instanceof properties.APPConstant) {
+                            node.pending = arguments[0].pending
+                            arguments[0] = arguments[0].data
+                        } else {
+                            if (node.pending) {
+                                arguments[0] = undefined
+                                return
                             }
+                        }
 
                         if (!arguments[0] && typeof arguments[0] !== 'string') {
                             arguments[0] = ''
@@ -438,9 +436,9 @@
                             node.target_child = node;
                             properties.entries(node, arguments[0])
                         }
-                        arguments[0]=undefined
+                        arguments[0] = undefined
                     })
-                    arguments[0]=undefined
+                    arguments[0] = undefined
                 })
             },
 
@@ -456,18 +454,18 @@
                 if (properties.store.hasOwnProperty(this.name)) {
                     properties.store[this.name].emit(name, data)
                 }
-                name=data=undefined
+                name = data = undefined
             }
             this.mapAll = function (object) {
                 if (typeof object === 'object') {
                     for (var key in object) {
                         this.map(key, object[key])
                     }
-                object=undefined
+                    object = undefined
                 } else {
                     return properties.console.error('invalid argument @mapAll', object)
                 }
-                object=undefined
+                object = undefined
             }
             this.createNodeList = function (string) {
                 return properties.stringtolist(arguments[0])
@@ -507,17 +505,17 @@
         }
 
         name = name.toLowerCase().trim()
-        this.name=name
+        this.name = name
 
         if (properties.store.hasOwnProperty(name)) {
             return;
         }
 
         var store = (properties.store[name] = properties.Event(name, {}))
-        
+
         Object.freeze(this)
         this.mapAll(object)
-        object=undefined
+        object = undefined
         properties.events.emit(this.name, store)
     }
 
