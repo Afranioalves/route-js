@@ -56,13 +56,19 @@
     </template>
     <script>
         var app = new RouteJs('app', { 
-            name: 'hello app'
+            display1: 'hello app'
         })
+        app.map('display1',new Promise(function(r){
+            setTimeout(function(){
+                r(600)
+            },5000)
+        }))
+
         app.map('display',app.usePromise(new Promise(function(r){
             setTimeout(function(){
                 r(6)
             },5000)
-        }),app.useTemplate(home)))
+        }),'-',app.useTemplate(home)))
     </script>
 </head>
 
@@ -70,6 +76,8 @@
  
     <br>
     <?app:display?> <br>
+    <?app:display?> <br>
+    <?app:display1?> <br>
     
     page
     <br>

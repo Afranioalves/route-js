@@ -64,6 +64,14 @@
                 this.data = arguments[0]
                 this.placeholder = arguments[1]
             },
+            APPConstant:function(){
+                this.data=arguments[0]
+                if (arguments[1] instanceof Number) {
+                    this.pending=arguments[1]
+                } else {
+                    this.pending=1
+                }
+            },
             Event: function (type, data) {
                 if (type instanceof Array === false) {
                     type = [String(type)]
@@ -289,22 +297,16 @@
                 } else if (data instanceof properties.APPPromise) {
                     var ev = properties.store[node.__data__[0]]
                     if (ev) {
-                        properties.entries(node, data.placeholder, ch, cloned, x_data)
-                        // ev.emit(node.__data__[1], data.placeholder)
-                        node.pending = 1
+                        // properties.entries(node, data.placeholder, ch, cloned, x_data)
+                        // node.pending = 1
+                        ev.emit(node.__data__[1], ch=new properties.APPConstant(data.placeholder))
                         data.data.then(function () {
-                            node.pending = 0
-                            ev.emit(node.__data__[1], arguments[0])
-                            ev = node = x_data = data = undefined
+                            ch.data = arguments[0]
+                            ch.pending = 0
+                            ev.emit(node.__data__[1], ch)
+                            ch=ev = node = x_data = data = undefined
                         });
                     }
-                    // properties.console.warn('unstable handler for type Promise', data)
-                    // var elm = document.createTextNode("")
-                    // data.then(function (e) {
-                    //     properties.entries(node, arguments[0], true, cloned, elm)
-                    // });
-                    // data = elm
-                    // elm = undefined
                     return
                 }
 
@@ -350,6 +352,7 @@
                     if (!e.getAttribute) {
                         return
                     }
+                    e.pending=0
                     e.data = e.getAttribute(properties.nameSpace.attribute)
                     e.removeAttribute(properties.nameSpace.attribute)
                     if (!e.data) {
@@ -416,9 +419,16 @@
 
                 properties.events.on(node.__data__[0], function () {
                     arguments[0].on(node.__data__[1], function () {
-                        if (node.pending) {
-                            return;
-                        }
+                            if (arguments[0] instanceof properties.APPConstant) {
+                                node.pending=arguments[0].pending
+                                arguments[0]=arguments[0].data
+                            }else{
+                                if (node.pending) {
+                                    arguments[0]=undefined
+                                    return
+                                }
+                            }
+
                         if (!arguments[0] && typeof arguments[0] !== 'string') {
                             arguments[0] = ''
                         }
@@ -428,62 +438,61 @@
                             node.target_child = node;
                             properties.entries(node, arguments[0])
                         }
+                        arguments[0]=undefined
                     })
+                    arguments[0]=undefined
                 })
-                // return node
             },
 
             console: console,
             store: {}
         },
         RouteJsCore = function () {
-
             this.map = function (name, data) {
                 if (typeof name !== "string") {
                     return properties.console.error('invalid argument @map', name, data)
                 }
                 name = name.toLowerCase().trim()
-                // if (!store.keys.hasOwnProperty(name)) {
-                //     store.keys[name]=[]
-                // }
                 if (properties.store.hasOwnProperty(this.name)) {
                     properties.store[this.name].emit(name, data)
                 }
+                name=data=undefined
             }
             this.mapAll = function (object) {
                 if (typeof object === 'object') {
                     for (var key in object) {
                         this.map(key, object[key])
                     }
+                object=undefined
                 } else {
                     return properties.console.error('invalid argument @mapAll', object)
                 }
+                object=undefined
             }
-
             this.createNodeList = function (string) {
-                return properties.stringtolist(string)
+                return properties.stringtolist(arguments[0])
             }
             this.createPromise = function (promise, placeholder) {
                 return {
-                    data: promise,
-                    placeholder: placeholder,
+                    data: arguments[0],
+                    placeholder: arguments[1],
                     "[[man-formed]]": true
                 }
             }
             this.useTemplate = function (template) {
                 if (!window.HTMLTemplateElement) {
-                    if (template instanceof Element) {
-                        return template.childNodes
+                    if (arguments[0] instanceof Element) {
+                        return arguments[0].childNodes
                     }
-                    return template
+                    return arguments[0]
                 }
-                if (template instanceof HTMLTemplateElement) {
-                    return template.content.childNodes
+                if (arguments[0] instanceof HTMLTemplateElement) {
+                    return arguments[0].content.childNodes
                 } else {
                     return null
                 }
             }
-            this.usePromise = function () {
+            this.usePromise = function (promise) {
                 return new properties.APPPromise(arguments[0], arguments[1])
             }
         }
@@ -496,6 +505,7 @@
         if (typeof name !== "string") {
             return properties.console.error('string expected, but ' + typeof name + ' provided', name, object)
         }
+
         name = name.toLowerCase().trim()
         this.name=name
 
