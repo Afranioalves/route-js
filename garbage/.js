@@ -10,29 +10,21 @@
  * @properties <\> @observer @entries @observer_callback
  */
 
-/**
- * @problem fixed
- * @todo use bottom to top loop for handler remover
- * @properties <\> @re_entries @observer_callback
- */
-
-
-(function () {
+ (function () {
     /**
      * @Legacy
      */
-    if (!window.Promise) {
-        window.Promise = new Function()
-        Node.prototype.remove = function () {
+     if (!window.Promise) {
+        window.Promise=new Function()
+        Node.prototype.remove = function(){
             if (this.parentNode) {
                 this.parentNode.removeChild(this)
             }
         }
-    }
-
+     }
 
     var properties = {
-        useElement: 1,
+        useElement: false,
         nameSpace: {
             attribute: 'route'
         },
@@ -63,7 +55,6 @@
                             store.events[name][i](store.data[name])
                         }
                     }
-                    data = undefined
                 },
                 on: function (name, foo) {
                     if (store.events[name] instanceof Array) {
@@ -74,7 +65,6 @@
                     if (name in store.data) {
                         foo(store.data[name])
                     }
-                    foo = undefined
                 },
                 get: function (name) {
                     if (name in store.data) {
@@ -99,19 +89,16 @@
                         foo(e[i].addedNodes[_i]);
                     }
                 }
-                e = undefined
             }).observe(elm || document, {
                 childList: true,
                 characterData: true,
                 subtree: true,
             })
-            elm = undefined
-        } : function (foo, elm) {
+        } : function (foo,elm) {
             elm.addEventListener('DOMNodeInserted', function (e) {
                 foo(e.target);
-                e = undefined
             })
-            elm = undefined
+            elm=undefined
         }),
         observer: function (foo) {
             properties._observer(function (e) {
@@ -122,6 +109,7 @@
                         if (e.hasAttribute(properties.nameSpace.attribute)) {
                             foo(e, 'element')
                         } else {
+                            
                             var _e = e.querySelectorAll('[' + properties.nameSpace.attribute + ']')
                             for (var i = 0; i < _e.length; i++) {
                                 foo(_e[i], 'element')
@@ -144,11 +132,11 @@
                         }
                     }
                 }
-                e = undefined
             }, document)
         },
         re_entries: function (node) {
-            for (var i = node.__children__.length - 1; i >= 0; i--) {
+            for (var i = 0; i < node.__children__.length; i++) {
+                console.log();
                 if (node.__children__[i].__children__) {
                     properties.re_entries(node.__children__[i])
                 } else {
@@ -159,28 +147,24 @@
                     }
                 }
             }
-            node = undefined
+            node=undefined
         },
-        type_entries: function (node, data, i) {
+        type_entries: function (node, data) {
             if (data instanceof NodeList || data instanceof Array) {
                 for (var i = 0; i < data.length; i++) {
-                    properties.type_entries(node, data[i], i)
+                    properties.type_entries(node, data[i])
                 }
-                return
             } else if (data instanceof Node) {
                 data = data.cloneNode(true)
             }
             if (!(data instanceof Node)) {
                 data = document.createTextNode(data)
             }
-            if (!i) {
-                node.innerHTML = ''
-                node.value = ''
-            }
+            node.innerHTML = ''
             if (node instanceof HTMLTitleElement) {
-                node.innerText += data.textContent
+                node.innerText = data.textContent
             } else if (node instanceof HTMLInputElement) {
-                node.value += data.textContent
+                node.value = data.textContent
             } else if (node.hasOwnProperty('src')) {
                 node.src = data.textContent
             } else if (node instanceof HTMLLinkElement) {
@@ -188,14 +172,12 @@
             } else {
                 node.appendChild(data)
             }
-            node = data = undefined
         },
         entries: function (node, data, ch, cloned, x_data) {
             if (data['[[man-formed]]']) {
                 properties.console.warn('unstable handler for type Promise', data)
             } else if (data instanceof DocumentFragment) {
                 properties.entries(node, data.cloneNode(true).childNodes, ch, true)
-                x_data = node = data = undefined
                 return
             } else if (data instanceof NodeList || data instanceof Array) {
                 if (cloned) {
@@ -225,7 +207,6 @@
                         properties.entries(node, data[i], i, cloned, x_data)
                     }
                 }
-                x_data = node = data = undefined
                 return
             } else if (data instanceof Node && !cloned) {
                 data = data.cloneNode(true)
@@ -236,7 +217,6 @@
                     properties.entries(node, arguments[0], true, cloned, elm)
                 });
                 data = elm
-                elm = undefined
             }
 
             if (data instanceof Comment) {
@@ -257,7 +237,6 @@
             if (x_data) {
                 node.target_child = x_data;
                 x_data.parentElement.insertBefore(data, x_data)
-                x_data = undefined;
             } else {
                 if (node.target_child.nextSibling) {
                     node.parentElement.insertBefore(data, node.target_child.nextSibling)
@@ -265,8 +244,8 @@
                     node.parentElement.appendChild(data)
                 }
             }
+
             node.target_child = data
-            data = node = undefined
         },
         stringtolist: function (e) {
             var elm = arguments.callee.elm.cloneNode()
@@ -348,7 +327,7 @@
 
     window.RouteJs = function (name, data) {
         if (typeof name !== "string") {
-            return properties.console.error('string expected, but ' + typeof name + ' provided', name, data)
+            return properties.console.error('string expected, but '+typeof name+' provided', name, data)
         }
         name = name.toLowerCase().trim()
         if (properties.store.hasOwnProperty(name)) {
