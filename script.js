@@ -32,7 +32,7 @@
 
 
     var properties = {
-        useElement: 1,
+        useElement: false,
         nameSpace: {
             attribute: 'route'
         },
