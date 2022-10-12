@@ -78,5 +78,5 @@ Hello App
 ```
 
 # Examples
-[using template](https://owens94819.github.io/route-js/)
+[using template](https://owens94819.github.io/route-js/) | 
 [list styling](https://owens94819.github.io/route-js/examples/list.html)
