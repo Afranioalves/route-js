@@ -1,7 +1,7 @@
 var i = 0;
 var alp = 'abcdefghijklmnopqrstuvwsyz'.toUpperCase()
 
-/** @list style */
+/** @list markers */
 function alphabet_order() {
     return (alp[i++]||"?") + ':'
 }
