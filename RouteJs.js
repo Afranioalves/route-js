@@ -74,6 +74,66 @@
                     this.pending = 1
                 }
             },
+            $:function () {
+                arguments=arguments[0]
+                if ((arguments[0] instanceof Object) === false&&"string" !== typeof arguments[0]) {
+                    return
+                }
+                for (var i = 1; i < arguments.length; i++) {
+                    if ("number" === typeof arguments[i]) {
+                        arguments[i] = String(arguments[i])
+                    }
+                    if ("string" === typeof arguments[i]) {
+                        if (arguments[i]==="") {
+                            continue;
+                        }
+                        if ("string" === typeof arguments[i + 1]) {
+                            if (arguments[i + 1].trim() === "=") {
+                                return arguments[0][arguments[i]] = arguments[i + 2]
+                            } else if (arguments[i + 1].trim() === "+=") {
+                                return arguments[0][arguments[i]] += arguments[i + 2]
+                            } else {
+                                arguments[0] = arguments[0][arguments[i]]
+                            }
+                        } else if (arguments[i + 1] instanceof Array) {
+                            if ("function" === typeof arguments[0][arguments[i]]) {
+                                var s = "";
+                                for (var _i = 0; _i < arguments[i + 1].length; _i++) {
+                                    s += 'arguments[i+1][' + _i + ']'
+                                    if (arguments[i + 1].length > _i + 1) {
+                                        s += ','
+                                    }
+                                }
+                                arguments[0] = eval('arguments[0][arguments[i]](' + s + ')')
+                            } else {
+                                return
+                            }
+                            i = i + 1
+                        } else {
+                            arguments[0] = arguments[0][arguments[i]]
+                        }
+                    } else if (arguments[i] instanceof Array) {
+                        if ("function" === typeof arguments[0]) {
+                            var s = "";
+                            for (var _i = 0; _i < arguments[i].length; _i++) {
+                                s += 'arguments[i][' + _i + ']'
+                                if (arguments[i].length > _i + 1) {
+                                    s += ','
+                                }
+                            }
+                            var _p = arguments[0]
+                            arguments[0] = eval('_p(' + s + ')')
+                            _p = null
+                        } else {
+                            return
+                        }
+                    }
+                    if (arguments[0] === null || arguments[0] === undefined) {
+                        break;
+                    }
+                }
+                return arguments[0]
+            },
             Event: function (type, data) {
                 if (type instanceof Array === false) {
                     type = [String(type)]

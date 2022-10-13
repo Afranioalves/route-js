@@ -1,0 +1,10 @@
+
+
+a {
+    color: rgb(85, 26, 139);
+    text-decoration-color: rgb(0, 0, 238);
+    text-decoration-line: underline;
+    text-decoration-style: solid;
+    text-decoration-thickness: auto;
+    cursor: pointer;
+}
