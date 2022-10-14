@@ -74,6 +74,23 @@
                     this.pending = 1
                 }
             },
+            APPStaticTemplate:function(){
+                this.content=arguments[0]
+            },
+            APPTemplate:function(){
+                if (arguments.length >= 2) {
+                    this.clone=arguments[1]
+                }else{
+                    this.clone=false
+                }
+
+                arguments[0]=arguments[0].cloneNode(true);
+                var d=  document.createElement('route:template')
+                d.appendChild(arguments[0])
+                this.content=d
+                
+                d=arguments[0]=undefined
+            },
             $:function () {
                 arguments=arguments[0]
                 if ((arguments[0] instanceof Object) === false&&"string" !== typeof arguments[0]) {
@@ -295,6 +312,10 @@
                 if (data instanceof Object && data['[[man-formed]]']) {
                     properties.console.warn('unstable handler for type Promise', data)
                     data = '';
+                } else if (data instanceof this.APPTemplate) {
+                        properties.entries(node,data.content,ch,!data.clone,x_data)
+                        x_data = node = data = undefined
+                        return
                 } else if (data instanceof DocumentFragment) {
                     if (cloned) {
                         properties.entries(node, data.childNodes, ch, true)
@@ -542,26 +563,44 @@
             this.createNodeList = function (string) {
                 return properties.stringtolist(arguments[0])
             }
-            this.createPromise = function (promise, placeholder) {
-                return {
-                    data: arguments[0],
-                    placeholder: arguments[1],
-                    "[[man-formed]]": true
-                }
-            }
-            this.useTemplate = function (template) {
+            // this.createPromise = function (promise, placeholder) {
+            //     return {
+            //         data: arguments[0],
+            //         placeholder: arguments[1],
+            //         "[[man-formed]]": true
+            //     }
+            // }
+            this.useUnstaticTemplate = function (template) {
                 if (!window.HTMLTemplateElement) {
                     if (arguments[0] instanceof Element) {
-                        return arguments[0].childNodes
+                        return new properties.APPTemplate(arguments[0])
                     }
                     return arguments[0]
                 }
                 if (arguments[0] instanceof HTMLTemplateElement) {
-                    return arguments[0].content.childNodes
+                    return new properties.APPTemplate(arguments[0].content)
                 } else {
                     return null
                 }
             }
+
+            this.useTemplate = function (template) {
+                if (arguments[1]===true) {
+                    return this.useUnstaticTemplate(arguments[0]);
+                }
+                if (!window.HTMLTemplateElement) {
+                    if (arguments[0] instanceof Element) {
+                        return arguments[0].cloneNode(true).childNodes
+                    }
+                    return arguments[0]
+                }
+                if (arguments[0] instanceof HTMLTemplateElement) {
+                    return arguments[0].content.cloneNode(true).childNodes
+                } else {
+                    return null
+                }
+            }
+
             this.usePromise = function (promise) {
                 return new properties.APPPromise(arguments[0], arguments[1])
             }
