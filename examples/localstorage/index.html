@@ -3,39 +3,59 @@
 
 <head>
     <script>
-        var img=new Image();
+        var img = new Image();
         // img.src='../../imgs/1.png'
     </script>
-    <style>
-        body{
-            opacity: 0;
-        }
-    </style>
+
+    <!-- page -->
     <template id="temp">
         <h1>Change style</h1>
         <h4>Choose option then reload page.</h4>
         <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi dolorum excepturi natus!.
         </p>
-        <h3>current style: "<?localstorage:style?>"</h3>
+        <h3>current style: "<?localstorage:name?>"
+        </h3>
         <div>
-            <button onclick="storage.map('style','style.css')">default</button>
-            <button onclick="storage.map('style','light.css')">light</button>
+            <button
+                onclick="storage.map('style',_default.content.textContent.trim());storage.map('name',this.textContent.trim())">default</button>
+            <button
+                onclick="storage.map('style',_light.content.textContent.trim());storage.map('name',this.textContent.trim())">light</button>
         </div>
     </template>
-    
+
+    <!-- style -->
+    <template id="_default">
+        body {
+        background-color: rgb(187, 130, 80);
+        }
+    </template>
+    <template id="_light">
+        body {
+        background-color: rgb(146, 127, 181);
+        color: azure;
+        }
+        *{
+        font-family: serif;
+        font-weight: 600;
+        }
+    </template>
+
     <script src="../../RouteJs.js"></script>
     <script src="script.js"></script>
 
     <link rel="stylesheet" href="../../themes/default.css">
-    <link rel="stylesheet" route="localstorage:style">
+    <link rel="stylesheet" href="style.css">
+    <style rel="stylesheet" route="localstorage:style"></style>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title route="localstorage:name" route-target="innerText">Document</title>
+    <title route="app:name" route-target="innerText">Document</title>
 </head>
+
 <body>
-<?app:item?>
+    <?app:item?>
 </body>
+
 </html>

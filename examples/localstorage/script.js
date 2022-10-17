@@ -6,9 +6,9 @@ var app = new RouteJs('app', {
 
 if (!localStorage.routed) {
     storage.mapAll({
-        name: "RouteJs",
-        style: "themes/default.css",
-        routed:"1"
+        name: "default",
+        style: _default.content.textContent.trim(),
+        routed: "1"
     })
 }
 

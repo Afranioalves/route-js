@@ -332,6 +332,7 @@
             },
             type_entries: function (node, data, i) {
                 if (data instanceof NodeList || data instanceof Array) {
+
                     for (var i = 0; i < data.length; i++) {
                         properties.type_entries(node, data[i], i)
                     }
