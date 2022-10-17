@@ -54,7 +54,7 @@
 
 
     var properties = {
-            use_attributes: true,
+            use_attributes: false,
             max_map_stack: 7,
             max_map_rendering: 7,
             nameSpace: {
@@ -74,34 +74,26 @@
                     this.pending = 1
                 }
             },
-            APPStaticTemplate: function () {
-                this.content = arguments[0]
+            APPStaticTemplate:function(){
+                this.content=arguments[0]
             },
-            APPTemplate: function () {
-                properties.console.warn('you\'re using an experimenter feature.\n useTemplate(,<Boolean>)');
+            APPTemplate:function(){
                 if (arguments.length >= 2) {
-                    this.clone = arguments[1]
-                } else {
-                    this.clone = false
+                    this.clone=arguments[1]
+                }else{
+                    this.clone=false
                 }
 
-                arguments[0] = arguments[0].cloneNode(true);
-                // for (var i = 0; i < arguments[0].childNodes.length; i++) {
-                // properties.observer_interactor(arguments[0].childNodes[i])
-                // }
-                // arguments[0].childNodes.forEach(function() {
-                //     // console.log(arguments[0]);
-                // properties.observer_interactor(arguments[0])
-                // });
-                var d = document.createElement('route:template')
+                arguments[0]=arguments[0].cloneNode(true);
+                var d=  document.createElement('route:template')
                 d.appendChild(arguments[0])
-                properties.observer_interactor(d)
-                this.content = d
-                d = arguments[0] = undefined
+                this.content=d
+                
+                d=arguments[0]=undefined
             },
-            $: function () {
-                arguments = arguments[0]
-                if ((arguments[0] instanceof Object) === false && "string" !== typeof arguments[0]) {
+            $:function () {
+                arguments=arguments[0]
+                if ((arguments[0] instanceof Object) === false&&"string" !== typeof arguments[0]) {
                     return
                 }
                 for (var i = 1; i < arguments.length; i++) {
@@ -109,7 +101,7 @@
                         arguments[i] = String(arguments[i])
                     }
                     if ("string" === typeof arguments[i]) {
-                        if (arguments[i] === "") {
+                        if (arguments[i]==="") {
                             continue;
                         }
                         if ("string" === typeof arguments[i + 1]) {
@@ -235,67 +227,42 @@
                 })
                 elm = undefined
             }),
-            observer: function () {
-                properties._observer(properties.observer_interactor, document)
-            },
-            observer_treeWalker: function (e) {
-                if (e.childNodes.length < 1) {
-                    return
-                }
-                var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, function () {
-                        d.push(arguments[0])
-                    }, false),
-                    d = [];
-                val.nextNode()
-                // while (true) {
-                //     d = val.nextNode()
-                //     if (!d) {
-                //         break;
-                //     }
-                //     d.push
-                //     if (d.data[0] + d.data[d.data.length - 1] === '??' && d.parentNode) {
-                //         properties.observer_callback(d)
-                //     }
-                // }
-                for (var i = 0; i < d.length; i++) {
-                    properties.observer_interactor(d[i])
-                }
-                // var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, function(){
-
-                // }, false),
-                //     d;
-                //     console.log(val);
-                // while (true) {
-                //     d = val.nextNode()
-                //     if (!d) {
-                //         break;
-                //     }
-                //     if (d.data[0] + d.data[d.data.length - 1] === '??' && d.parentNode) {
-                //         properties.observer_callback(d)
-                //     }
-                // }
-                e = val = d = undefined;
-            },
-            observer_interactor: function (e) {
-                if (e instanceof Comment && e.parentNode && e.data[0] + e.data[e.data.length - 1] === '??') {
-                    properties.observer_callback(e)
-                } else if (e instanceof Element) {
-                    if (properties.use_attributes) {
-                        if (e.hasAttribute(properties.nameSpace.attribute)) {
-                            properties.observer_callback(e, properties.nameSpace.element_flag)
-                        } else {
-                            var _e = e.querySelectorAll('[' + properties.nameSpace.attribute + ']')
-                            for (var i = 0; i < _e.length; i++) {
-                                properties.observer_callback(_e[i], properties.nameSpace.element_flag)
+            observer: function (foo) {
+                properties._observer(function (e) {
+                    if (e instanceof Comment && e.parentNode && e.data[0] + e.data[e.data.length - 1] === '??') {
+                        foo(e)
+                    } else if (e instanceof Element) {
+                        if (properties.use_attributes) {
+                            if (e.hasAttribute(properties.nameSpace.attribute)) {
+                                foo(e, properties.nameSpace.element_flag)
+                            } else {
+                                var _e = e.querySelectorAll('[' + properties.nameSpace.attribute + ']')
+                                for (var i = 0; i < _e.length; i++) {
+                                    foo(_e[i], properties.nameSpace.element_flag)
+                                }
+                                _e = undefined;
+                                var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, null, false),
+                                    d;
+                                while ((d = val.nextNode())) {
+                                    if (d.data[0] + d.data[d.data.length - 1] === '??') {
+                                        foo(d);
+                                    }
+                                }
+                                val = d = undefined;
                             }
-                            _e = undefined;
-                            properties.observer_treeWalker(e);
+                        } else {
+                            var val = document.createTreeWalker(e, NodeFilter.SHOW_COMMENT, null, false),
+                                d;
+                            while (d = val.nextNode()) {
+                                if (d.data[0] + d.data[d.data.length - 1] === '??' && d.parentNode) {
+                                    foo(d)
+                                }
+                            }
+                            val = d = undefined;
                         }
-                    } else {
-                        properties.observer_treeWalker(e);
                     }
-                }
-                e = undefined
+                    e = undefined
+                }, document)
             },
             re_entries: function (node) {
                 for (var i = node.__children__.length - 1; i >= 0; i--) {
@@ -341,13 +308,14 @@
                 node = data = undefined
             },
             entries: function (node, data, ch, cloned, x_data) {
+
                 if (data instanceof Object && data['[[man-formed]]']) {
                     properties.console.warn('unstable handler for type Promise', data)
                     data = '';
                 } else if (data instanceof this.APPTemplate) {
-                    properties.entries(node, data.content, ch, !data.clone, x_data)
-                    x_data = node = data = undefined
-                    return
+                        properties.entries(node,data.content,ch,!data.clone,x_data)
+                        x_data = node = data = undefined
+                        return
                 } else if (data instanceof DocumentFragment) {
                     if (cloned) {
                         properties.entries(node, data.childNodes, ch, true)
@@ -360,14 +328,30 @@
                     if (cloned) {
                         for (var i = 0; data.length > 0; i++) {
                             if (data[0] instanceof Element) {
-                                properties.observer_treeWalker(data[0]);
+                                var val = document.createTreeWalker(data[0], NodeFilter.SHOW_COMMENT, null, false),
+                                    d;
+                                while (d = val.nextNode()) {
+                                    if (d.data[0] + d.data[d.data.length - 1] === '??') {
+                                        d.parent_data = node.__data__.join(':')
+                                        // properties.observer_callback(d,node)
+                                    }
+                                }
+                                d = val = undefined
                             }
                             properties.entries(node, data[0], i, cloned, x_data)
                         }
                     } else {
                         for (var i = 0; i < data.length; i++) {
                             if (data[i] instanceof Element) {
-                                properties.observer_treeWalker(data[i]);
+                                var val = document.createTreeWalker(data[i], NodeFilter.SHOW_COMMENT, null, false),
+                                    d;
+                                while (d = val.nextNode()) {
+                                    if (d.data[0] + d.data[d.data.length - 1] === '??') {
+                                        d.parent_data = node.__data__.join(':')
+                                        // properties.observer_callback(d,node)
+                                    }
+                                }
+                                d = val = undefined
                             }
                             properties.entries(node, data[i], i, cloned, x_data)
                         }
@@ -451,7 +435,6 @@
             observer_callback: function (e, type) {
                 var node,
                     data;
-
                 if (type === properties.nameSpace.element_flag) {
                     if (!e.getAttribute) {
                         return
@@ -602,8 +585,7 @@
             }
 
             this.useTemplate = function (template) {
-                if (arguments[1] === true) {
-                    /**@fixed remove*/
+                if (arguments[1]===true) {
                     return this.useUnstaticTemplate(arguments[0]);
                 }
                 if (!window.HTMLTemplateElement) {
@@ -626,7 +608,7 @@
 
     properties.stringtolist.elm = document.createElement('x');
     properties.events = properties.Event('router', {})
-    properties.observer();
+    properties.observer(properties.observer_callback, document);
 
     window.RouteJs = function (name, object) {
         if (!(this instanceof RouteJs)) {
