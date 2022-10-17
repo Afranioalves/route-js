@@ -55,3 +55,7 @@ button{
     -ms-border-radius: 12px;
     -o-border-radius: 12px;
 }
+
+svg{
+    fill: currentColor;
+}
