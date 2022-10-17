@@ -6,7 +6,9 @@
         var img = new Image();
         // img.src='../../imgs/1.png'
     </script>
-
+<script>
+    console.log(90);
+</script>
     <!-- page -->
     <template id="temp">
         <h1>Change style</h1>
@@ -31,14 +33,7 @@
         }
     </template>
     <template id="_light">
-        body {
-        background-color: rgb(146, 127, 181);
-        color: azure;
-        }
-        *{
-        font-family: serif;
-        font-weight: 600;
-        }
+        @import ".light.css";
     </template>
 
     <script src="../../RouteJs.js"></script>
@@ -55,6 +50,9 @@
 </head>
 <body>
     <?app:item?>
+    <a href="#a">a</a>
+    <a href="#b">b</a>
+    <a href="#c">c</a>
 </body>
 
 </html>

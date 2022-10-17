@@ -34,7 +34,7 @@
  */
 
 
-(function () {
+ (function () {
     /**
      * @Legacy
      */
