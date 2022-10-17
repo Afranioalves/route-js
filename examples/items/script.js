@@ -6,3 +6,4 @@ var app = new RouteJs('app', {
 new RouteJs('localStorage', localStorage);
 
 app.map('item',app.useTemplate(temp,true))
+log
