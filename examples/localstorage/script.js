@@ -11,5 +11,4 @@ if (!localStorage.routed) {
         routed: "1"
     })
 }
- 
 app.map('item', app.useTemplate(temp, true))
