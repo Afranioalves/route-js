@@ -2,33 +2,41 @@
 <html lang="en">
 
 <head>
+    <script>
+       var img;
+        var lib = {
+            "home-img": (img=new Image(),img.src = "../../imgs/home.svg", img),
+            "about-img": (img=new Image(),img.src = "../../imgs/about.svg", img),
+            "404-img": (img=new Image(),img.src = "../../imgs/404.svg", img)
+        }
+    </script>
     <template path='#'>
         <article>
-            <img src="../../imgs/home.svg" alt="home">
-        <h1>Home</h1>
-        <p>
-            Nothing here at the moment.
-            <br>
-            <br>
-            <button onclick="location.href='#about'">Check About Page</button>
-        </p>
+            <?lib:home-img?>
+            <h1>Home</h1>
+            <p>
+                Nothing here at the moment.
+                <br>
+                <br>
+                <button onclick="location.href='#about'">Check About Page</button>
+            </p>
         </article>
     </template>
     <template path='#about'>
         <article>
-            <img src="../../imgs/about.svg" alt="about">
-        <h1>About</h1>
-        <p>
-            Nothing here at the moment.
-            <br>
-            <br>
-            <button onclick="location.replace('')">Check Home Page</button>
-        </p>
+            <?lib:about-img?>
+            <h1>About</h1>
+            <p>
+                Nothing here at the moment.
+                <br>
+                <br>
+                <button onclick="location.replace('')">Check Home Page</button>
+            </p>
         </article>
     </template>
     <template _404>
         <article>
-            <img src="../../imgs/404.svg" alt="404">
+            <?lib:404-img?>
             <h2>location not fund</h2>
             <p>
                 This page is currently unavailable.
